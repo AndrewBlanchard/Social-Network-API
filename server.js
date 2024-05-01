@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network-
 // Use this to log mongo queries being executed
 mongoose.set('debug', true);
 
-app.use('/api/thoughts', reactionRoutes);
+app.use('/api/reactions', reactionRoutes);
 app.use('/api/thoughts', thoughtRoutes);
 app.use('/api/users', userRoutes);
 
