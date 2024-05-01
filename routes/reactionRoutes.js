@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Thought, Reaction } = require('../models');
+const { Thought } = require('../models/Thought');
 
 // POST to create a reaction
 router.post('/:thoughtId/reactions', async (req, res) => {
