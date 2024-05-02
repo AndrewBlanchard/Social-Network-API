@@ -11,10 +11,13 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network-api', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/social-network', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+})
+
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.error('Error connecting to MongoDB:', err));
 
 // Use this to log mongo queries being executed
 mongoose.set('debug', true);
