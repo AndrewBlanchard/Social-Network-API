@@ -1,16 +1,22 @@
 const router = require('express').Router();
 const { User } = require('../models/User');
 const { Thought } = require('../models/Thought');
+const {addfriend, removefriend} = require('../controllers/userController');
+const {getAllUsers, getUserById, createUser, updateUser, deleteUser} = require('../controllers/userController');
+
+router.route('/').post(createUser).get(getAllUsers);
+router.route('/:userId').get(getUserById).put(updateUser).delete(deleteUser);
+
 
 // GET all users
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.find().populate('thoughts').populate('friends');
-    res.json(users);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// router.get('/', async (req, res) => {
+//   try {
+//     const users = await User.find().populate('thoughts').populate('friends');
+//     res.json(users);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // GET a single user by id
 router.get('/:userId', async (req, res) => {
@@ -28,14 +34,16 @@ router.get('/:userId', async (req, res) => {
 });
 
 // POST a new user
-router.post('/', async (req, res) => {
-  try {
-    const newUser = await User.create(req.body);
-    res.json(newUser);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+
+
+// router.post('/', async (req, res) => {
+//   try {
+//     const newUser = await User.create(req.body);
+//     res.json(newUser);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // PUT to update a user by id
 router.put('/:userId', async (req, res) => {
@@ -50,7 +58,8 @@ router.put('/:userId', async (req, res) => {
     }
     res.json(updatedUser);
   } catch (err) {
-    res.status(500).json(err);
+    console.log(err); // Log the complete error object for debugging
+    res.status(500).json({ message: 'Internal Server Error' }); // Generic error for now
   }
 });
 

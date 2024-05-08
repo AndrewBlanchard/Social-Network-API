@@ -1,17 +1,17 @@
-const { User } = require('../models');
+const  User = require('../models/User');
 
 const userController = {
   // Get all users
   getAllUsers(req, res) {
-    User.find({})
-      .populate({
-        path: 'thoughts',
-        select: '-__v'
-      })
-      .populate({
-        path: 'friends',
-        select: '-__v'
-      })
+    User.find()
+      // .populate({
+      //   path: 'thoughts',
+      //   select: '-__v'
+      // })
+      // .populate({
+      //   path: 'friends',
+      //   select: '-__v'
+      // })
       .select('-__v')
       .then(dbUserData => res.json(dbUserData))
       .catch(err => {
@@ -22,16 +22,19 @@ const userController = {
 
   // Get one user by id
   getUserById({ params }, res) {
-    User.findOne({ _id: params.id })
-      .populate({
-        path: 'thoughts',
-        select: '-__v'
-      })
-      .populate({
-        path: 'friends',
-        select: '-__v'
-      })
+    User.findOne({ _id: params.userId })
       .select('-__v')
+      .populate('friends')
+      .populate('thoughts')
+      // .populate({
+      //   path: 'thoughts',
+      //   select: '-__v'
+      // })
+      // .populate({
+      //   path: 'friends',
+      //   select: '-__v'
+      // })
+      
       .then(dbUserData => {
         if (!dbUserData) {
           res.status(404).json({ message: 'No user found with this id!' });
@@ -49,34 +52,38 @@ const userController = {
   createUser({ body }, res) {
     User.create(body)
       .then(dbUserData => res.json(dbUserData))
-      .catch(err => res.status(400).json(err));
+      .catch(err => res.status(500).json(err));
   },
 
   // Update a user by id
-  updateUser({ params, body }, res) {
-    User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
-      .then(dbUserData => {
-        if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id!' });
-          return;
+  updateUser(req, res) {
+    User.findOne({ _id: req.params.userId })
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({ message: 'No user found with this id!' });
         }
-        res.json(dbUserData);
+  
+        // Update user with the provided body (username and email)
+        user.username = body.username;
+        user.email = body.email;
+        return user.save();
       })
-      .catch(err => res.status(400).json(err));
+      .then(updatedUser => res.json(updatedUser))
+      .catch(err => res.status(500).json(err));
   },
 
   // Delete a user by id
   deleteUser({ params }, res) {
-    User.findOneAndDelete({ _id: params.id })
-      .then(dbUserData => {
-        if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id!' });
-          return;
-        }
-        res.json(dbUserData);
-      })
-      .catch(err => res.status(400).json(err));
-  },
+      User.findOneAndDelete({ userId: params.id })
+        .then(dbUserData => {
+          if (!dbUserData) {
+            res.status(404).json({ message: 'No User found with this id!' });
+            return;
+          }
+          res.json(dbUserData);
+        })
+    .catch(err => res.json(err));
+},
 
   // Add a friend to user's friend list
   addFriend({ params }, res) {

@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/social-network', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/social-network-db', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
