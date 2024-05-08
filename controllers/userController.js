@@ -64,8 +64,8 @@ const userController = {
         }
   
         // Update user with the provided body (username and email)
-        user.username = body.username;
-        user.email = body.email;
+        user.username = req.body.username;
+        user.email = req.body.email;
         return user.save();
       })
       .then(updatedUser => res.json(updatedUser))
