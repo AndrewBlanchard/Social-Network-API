@@ -1,6 +1,6 @@
 # Andrew Blanchard NoSQL: Social Network API
 
-## Link to Video DEMO: 
+## Link to Video DEMO: https://www.youtube.com/watch?v=OFHeydgTGrU
 
 ## Table of Contents
 - [Description](#description)
