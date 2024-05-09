@@ -1,22 +1,11 @@
 const router = require('express').Router();
 const { User } = require('../models/User');
 const { Thought } = require('../models/Thought');
-const {addfriend, removefriend} = require('../controllers/userController');
-const {getAllUsers, getUserById, createUser, updateUser, deleteUser} = require('../controllers/userController');
+const { addFriend, removeFriend } = require('../controllers/userController');
+const { getAllUsers, getUserById, createUser, updateUser, deleteUser } = require('../controllers/userController');
 
 router.route('/').post(createUser).get(getAllUsers);
 router.route('/:userId').get(getUserById).put(updateUser).delete(deleteUser);
-
-
-// GET all users
-// router.get('/', async (req, res) => {
-//   try {
-//     const users = await User.find().populate('thoughts').populate('friends');
-//     res.json(users);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 // GET a single user by id
 router.get('/:userId', async (req, res) => {
@@ -32,18 +21,6 @@ router.get('/:userId', async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-// POST a new user
-
-
-// router.post('/', async (req, res) => {
-//   try {
-//     const newUser = await User.create(req.body);
-//     res.json(newUser);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 // PUT to update a user by id
 router.put('/:userId', async (req, res) => {
@@ -79,37 +56,9 @@ router.delete('/:userId', async (req, res) => {
 });
 
 // POST to add a new friend to a user's friend list
-router.post('/:userId/friends/:friendId', async (req, res) => {
-  try {
-    const user = await User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $addToSet: { friends: req.params.friendId } },
-      { new: true }
-    );
-    if (!user) {
-      return res.status(404).json({ message: 'No user found with this id!' });
-    }
-    res.json(user);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.post('/:userId/friends/:friendId', addFriend);
 
 // DELETE to remove a friend from a user's friend list
-router.delete('/:userId/friends/:friendId', async (req, res) => {
-  try {
-    const user = await User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $pull: { friends: req.params.friendId } },
-      { new: true }
-    );
-    if (!user) {
-      return res.status(404).json({ message: 'No user found with this id!' });
-    }
-    res.json(user);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+router.delete('/:userId/friends/:friendId', removeFriend);
 
 module.exports = router;
