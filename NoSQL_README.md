@@ -15,10 +15,10 @@ Created a database of users for a social media website or app.  Using Insomnia I
 MongoDB, Insmonia, node.js
 
 ## Screenshots 
-<img alt=""src= "" >
-<img alt=""src= "" >
-<img alt=""src= "" >
-<img alt=""src= "" >
+<img alt="GET Users" src= "https://github.com/AndrewBlanchard/Social-Network-API/blob/master/Public/Screenshots/GET_Users_Screenshot.png?raw=true">
+<img alt="POST Add Friend" src= "https://github.com/AndrewBlanchard/Social-Network-API/blob/master/Public/Screenshots/POST_AddFriend_Screenshot.png?raw=true">
+<img alt="POST New Thought" src= "https://github.com/AndrewBlanchard/Social-Network-API/blob/master/Public/Screenshots/POST_Thought_Screenshot.png?raw=true">
+<img alt="PUT Update USer Info "src= "https://github.com/AndrewBlanchard/Social-Network-API/blob/master/Public/Screenshots/PUT_Update_User_Screenshot.png?raw=true">
 
 ## License
 
